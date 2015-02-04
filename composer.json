@@ -1,0 +1,15 @@
+{
+    "name": "calderawp/dismissible_notice",
+    "license": "GPL v2+",
+    "description" : "Creates a dismissible--via AJAX--admin nag.",
+    "authors": [
+        {
+            "name": "Josh Pollock",
+            "email": "Josh@JoshPress.net"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "classmap": ["src/", "lib/", "Caldera_Warnings_Dismissible_Notice.php"]
+    }
+}
