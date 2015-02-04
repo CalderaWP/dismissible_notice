@@ -7,8 +7,5 @@
             "name": "Josh Pollock",
             "email": "Josh@JoshPress.net"
         }
-    ],
-    "autoload": {
-        "classmap": ["src/", "Caldera_Warnings_Dismissible_Notice.php"]
-    }
+    ]
 }
