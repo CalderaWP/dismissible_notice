@@ -1,5 +1,5 @@
 {
-    "name": "calderawp/dismissible_notice",
+    "name": "calderawp/dismissible-notice",
     "license": "GPL v2+",
     "description" : "Creates a dismissible--via AJAX--admin nag.",
     "authors": [
