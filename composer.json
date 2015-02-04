@@ -8,7 +8,6 @@
             "email": "Josh@JoshPress.net"
         }
     ],
-    "minimum-stability": "dev",
     "autoload": {
         "classmap": ["src/", "lib/", "Caldera_Warnings_Dismissible_Notice.php"]
     }
