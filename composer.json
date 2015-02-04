@@ -9,6 +9,6 @@
         }
     ],
     "autoload": {
-        "classmap": ["src/", "lib/", "Caldera_Warnings_Dismissible_Notice.php"]
+        "classmap": ["src/", "Caldera_Warnings_Dismissible_Notice.php"]
     }
 }
