@@ -19,7 +19,7 @@ Show a warning if current version of PHP is less than 5.3.
 ```
 
 ### Backwards Compat and such
-This library was written with PHP 5.2 backwards-compat in mind. Hence the prefixed instead of namespaced class name. It will still be autoload if using the Composer Autoloader. The above example doe snot use the autoloader since it's goal is to nag and bail if user is using PHP 5.2.
+This library was written with PHP 5.2 backwards-compat in mind. Hence the prefixed, instead of namespaced class name. You will also need to manually include the class.
 
 
 ### License & Copyright
