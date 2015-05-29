@@ -59,7 +59,7 @@ class Caldera_Warnings_Dismissible_Notice {
 	 * @return string|void Admin notice if is_admin() and not dismissed.
 	 */
 	public static function notice( $message,  $error = true, $cap_check = 'update_options', $ignore_key = false ) {
-		if ( is_admin() ) {
+		if ( is_admin() && ( !defined( 'DOING_AJAX' ) || !DOING_AJAX ) ) {
 			if ( current_user_can( $cap_check ) ) {
 				$user_id = get_current_user_id();
 				if ( ! is_string( $ignore_key ) ) {
