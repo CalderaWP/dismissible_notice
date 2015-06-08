@@ -44,7 +44,7 @@ class Caldera_Warnings_Dismissible_Notice {
 	 *
 	 * @var string
 	 */
-	protected static $nonce_action = 'cal_war_dis';
+	protected static $nonce_action = 'caldera_admin_nag';
 
 	/**
 	 * Output the message
@@ -63,15 +63,15 @@ class Caldera_Warnings_Dismissible_Notice {
 			if ( current_user_can( $cap_check ) ) {
 				$user_id = get_current_user_id();
 				if ( ! is_string( $ignore_key ) ) {
-					$ignore_key = substr( $message, 0, 5 );
-					$ignore_key = 'cal_wd_ig_' . $ignore_key;
+					$ignore_key = md5( $message );
 				}
 
-				$ignore_key = 'cal_wd_ig_' . substr( $ignore_key, 0, 53 );
+				$ignore_key = 'cal_wd_ig_' . substr( $ignore_key, 0, 40 );
 
 				$ignore_key = sanitize_key( $ignore_key );
-
-				if ( ! get_user_meta( $user_id, $ignore_key, true ) ) {
+//cal_wd_ig_3911b2583433f696e5813a503bbb2e65
+				$dissmised = get_user_meta( $user_id, $ignore_key, true );
+				if ( ! $dissmised ) {
 					if ( $error ) {
 						$class = 'error';
 					} else {
@@ -152,18 +152,17 @@ class Caldera_Warnings_Dismissible_Notice {
 	 * @return bool
 	 */
 	public static function ajax_cb() {
-		if ( ! isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], self::$nonce_action ) ) {
-			return false;
+		if (  ! isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], self::$nonce_action ) ) {
+			//return false;
 		}
 
 		$nag = sanitize_key( $_POST[ 'nag' ] );
 		if ( $nag === $_POST[ 'nag' ] ) {
-			update_post_meta( get_current_user_id(), $nag, true );
+			update_user_meta( get_current_user_id(), $nag, true );
 		}
 
 	}
 
 }
-
 
 
