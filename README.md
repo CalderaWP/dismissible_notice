@@ -14,7 +14,7 @@ Show a warning if current version of PHP is less than 5.3.
     		if ( is_admin() ) {
     			//BIG nope nope nope!
     
-    			$message = __( sprintf( 'Caldera Easy Queries requires PHP version %1s or later. We strongly recommend PHP 5.4 or later for security and performance reasons. Current version is %2s.', '5.3.0', PHP_VERSION ), 'caldera-easy-queries' );
+    			$message = sprintf( __( 'Caldera Easy Queries requires PHP version %1s or later. We strongly recommend PHP 5.4 or later for security and performance reasons. Current version is %2s.', '5.3.0', 'caldera-text-domain' ), PHP_VERSION );
     			echo caldera_warnings_dismissible_notice( $message, true, 'activate_plugins' );
     		}
     
