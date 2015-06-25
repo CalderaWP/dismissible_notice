@@ -28,12 +28,12 @@ if ( ! function_exists( 'caldera_warnings_dismissible_notice' ) ) {
 	 *
 	 * @param string $message The text of the message.
 	 * @param bool $error Optional. Whether to show as error or update. Default is error.
-	 * @param string $cap_check Optional. Minimum user capability to show nag to. Default is "update_options"
+	 * @param string $cap_check Optional. Minimum user capability to show nag to. Default is "manage_options"
 	 * @param string|bool $ignore_key Optional. The user meta key to use for storing if this message has been dismissed by current user or not. If false, it will be generated.
 	 *
 	 * @return string|void Admin notice if is_admin() and not dismissed.
 	 */
-	function caldera_warnings_dismissible_notice( $message,  $error = true, $cap_check = 'update_options', $ignore_key = false ) {
+	function caldera_warnings_dismissible_notice( $message,  $error = true, $cap_check = 'manage_options', $ignore_key = false ) {
 		include_once dirname( __FILE__ ) . '/Caldera_Warnings_Dismissible_Notice.php';
 
 		return Caldera_Warnings_Dismissible_Notice::notice( $message, true, 'activate_plugins' );
