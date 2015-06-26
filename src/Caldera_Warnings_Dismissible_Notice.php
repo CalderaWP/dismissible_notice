@@ -63,13 +63,12 @@ class Caldera_Warnings_Dismissible_Notice {
 			if ( current_user_can( $cap_check ) ) {
 				$user_id = get_current_user_id();
 				if ( ! is_string( $ignore_key ) ) {
-					$ignore_key = md5( $message );
+					//cal_wd_ig_3911b2583433f696e5813a503bbb2e65
+					$ignore_key = 'cal_wd_ig_' . substr( md5( $ignore_key ), 0, 40 );
 				}
 
-				$ignore_key = 'cal_wd_ig_' . substr( $ignore_key, 0, 40 );
-
 				$ignore_key = sanitize_key( $ignore_key );
-//cal_wd_ig_3911b2583433f696e5813a503bbb2e65
+
 				$dissmised = get_user_meta( $user_id, $ignore_key, true );
 				if ( ! $dissmised ) {
 					if ( $error ) {
