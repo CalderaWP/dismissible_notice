@@ -36,7 +36,7 @@ if ( ! function_exists( 'caldera_warnings_dismissible_notice' ) ) {
 	function caldera_warnings_dismissible_notice( $message,  $error = true, $cap_check = 'update_options', $ignore_key = false ) {
 		include_once dirname( __FILE__ ) . '/Caldera_Warnings_Dismissible_Notice.php';
 
-		return Caldera_Warnings_Dismissible_Notice::notice( $message, true, 'activate_plugins' );
+		return Caldera_Warnings_Dismissible_Notice::notice( $message, $error, $cap_check, $ignore_key );
 	}
 
 }
