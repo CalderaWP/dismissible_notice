@@ -5,7 +5,6 @@
  * @package   @Caldera_Warnings_Dismissible_Notice
  * @author    Josh Pollock <Josh@JoshPress.net>
  * @license   GPL-2.0+
- * @link      
  * @copyright 2015 Josh Pollock
  */
 /**
@@ -25,17 +24,6 @@ if ( class_exists( 'Caldera_Warnings_Dismissible_Notice' ) ) {
 class Caldera_Warnings_Dismissible_Notice {
 
 	/**
-	 * The class attribute for notice toggles.
-	 *
-	 * @since 0.1.0
-	 *
-	 * @access protected
-	 *
-	 * @var string
-	 */
-	protected static $notice_class = "caldera_admin_nag";
-
-	/**
 	 * The action for the nonce
 	 *
 	 * @since 0.1.0
@@ -45,6 +33,28 @@ class Caldera_Warnings_Dismissible_Notice {
 	 * @var string
 	 */
 	protected static $nonce_action = 'caldera_admin_nag';
+
+	/**
+	 * The counce field
+	 *
+	 * @since 0.3.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
+	 */
+	protected static $nonce_field  = '';
+
+	/**
+	 * The ignore key
+	 *
+	 * @since 0.3.0
+	 *
+	 * @access protected
+	 *
+	 * @var string
+	 */
+	protected static $ignore_key   = '';
 
 	/**
 	 * Output the message
@@ -63,13 +73,13 @@ class Caldera_Warnings_Dismissible_Notice {
 			if ( current_user_can( $cap_check ) ) {
 				$user_id = get_current_user_id();
 				if ( ! is_string( $ignore_key ) ) {
-					//cal_wd_ig_3911b2583433f696e5813a503bbb2e65
+					// cal_wd_ig_3911b2583433f696e5813a503bbb2e65
 					$ignore_key = 'cal_wd_ig_' . substr( md5( $ignore_key ), 0, 40 );
 				}
 
-				$ignore_key = sanitize_key( $ignore_key );
+				self::$ignore_key = sanitize_key( $ignore_key );
 
-				$dissmised = get_user_meta( $user_id, $ignore_key, true );
+				$dissmised = get_user_meta( $user_id, self::$ignore_key, true );
 				if ( ! $dissmised ) {
 					if ( $error ) {
 						$class = 'error';
@@ -77,20 +87,14 @@ class Caldera_Warnings_Dismissible_Notice {
 						$class = 'updated';
 					}
 
-					$hide_attr = $ignore_key . '_id';
+					self::$nonce_field = wp_nonce_field( self::$nonce_action );
 
-					$nonce = wp_create_nonce( self::$nonce_action );
+					$out[] = sprintf( '<div id="%1s" class="%2s notice is-dismissible"><p>', self::$ignore_key, $class );
+					$out[] = $message;
+					$out[] = self::$nonce_field;
+					$out[] = '</p></div>';
 
-					$dismiss = sprintf(
-						'<a style="float:right;"  href="#" title="Hide This Warning" data-nag="%1s" class="%2s" data-nonce="3%s" id="%4s" data-hide="%5s"><span style="text-decoration: none;color: #000;" class="dashicons dashicons-no-alt" ></span></a>',
-						$ignore_key, self::$notice_class, $nonce, $ignore_key, $hide_attr
-					);
-
-					$out[] = sprintf( '<div class="%1s" id="%2s"><p>', $class, $hide_attr );
-					$out[] = $message . $dismiss;
-					$out[] = "</p></div>";
-
-					add_action( 'admin_footer', array( __CLASS__, 'js' ) );
+					add_action( 'admin_enqueue_scripts', array( __CLASS__, 'js_css' ) );
 					add_action( 'wp_ajax_caldera_warnings_dismissible_notice', array( __CLASS__, 'ajax_cb' ) );
 
 					return implode( '', $out );
@@ -104,41 +108,26 @@ class Caldera_Warnings_Dismissible_Notice {
 	}
 
 	/**
-	 * JavaScript for click event.
+	 * Enqueue JavaScript and CSS for dismiss button.
 	 *
 	 * @since 0.1.0
 	 *
-	 * @uses "admin_footer"
+	 * @uses "admin_enqueue_scripts"
+	 * @global string $wp_version The current WordPress version.
 	 */
-	public static function js() {
-		?>
-		<script>
-			jQuery(document).ready(function($) {
-				var the_class = ".<?php echo self::$notice_class; ?>";
-
-				$( the_class ).click( function ( event ) {
-					var url = ajaxurl;
-					event.preventDefault();
-					var nag = $( this ).data( 'nag' );
-					var nonce = $( this ).data( 'nonce' );
-					var hide = $( this ).data( 'hide' );
-
-					$.post( ajaxurl, {
-						action: "caldera_warnings_dismissible_notice",
-						url: url,
-						nag: nag,
-						nonce: nonce
-					}).done( function( data ) {
-						$( document.getElementById( hide ) ).slideUp();
-
-					});
-
-				} );
-			});
-
-		</script>
-
-	<?php
+	public static function js_css() {
+		global $wp_version;
+		$is_less_42 = version_compare( $wp_version, '4.2', '>' );
+		if ( ! $is_less_42 ) {
+			wp_enqueue_style( 'caldera-wdn-style', plugin_dir_url( __FILE__ ) . '/css/style.css' );
+		}
+		wp_enqueue_script( 'caldera-wdn-common', plugin_dir_url( __FILE__ ) . '/js/common.js' );
+		wp_localize_script( 'caldera-wdn-common', 'caldera_commonL10n', array(
+			'nonce'      => self::$nonce_field,
+			'nag'        => self::$ignore_key,
+			'wp_version' => $is_less_42,
+			'dismiss'    => __( 'Dismiss this notice.', apply_filters( 'caldera_wdn_text_domain' ) ),
+		) );
 	}
 
 	/**
@@ -163,5 +152,3 @@ class Caldera_Warnings_Dismissible_Notice {
 	}
 
 }
-
-
