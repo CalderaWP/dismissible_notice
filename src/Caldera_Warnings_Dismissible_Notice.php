@@ -63,12 +63,12 @@ class Caldera_Warnings_Dismissible_Notice {
 	 *
 	 * @param string $message The text of the message.
 	 * @param bool $error Optional. Whether to show as error or update. Default is error.
-	 * @param string $cap_check Optional. Minimum user capability to show nag to. Default is "update_options"
+	 * @param string $cap_check Optional. Minimum user capability to show nag to. Default is "activate_plugins"
 	 * @param string|bool $ignore_key Optional. The user meta key to use for storing if this message has been dismissed by current user or not. If false, it will be generated.
 	 *
 	 * @return string|void Admin notice if is_admin() and not dismissed.
 	 */
-	public static function notice( $message,  $error = true, $cap_check = 'update_options', $ignore_key = false ) {
+	public static function notice( $message,  $error = true, $cap_check = 'activate_plugins', $ignore_key = false ) {
 		if ( is_admin() && ( !defined( 'DOING_AJAX' ) || !DOING_AJAX ) ) {
 			if ( current_user_can( $cap_check ) ) {
 				$user_id = get_current_user_id();
