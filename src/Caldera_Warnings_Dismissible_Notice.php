@@ -80,6 +80,7 @@ class Caldera_Warnings_Dismissible_Notice {
 				self::$ignore_key = sanitize_key( $ignore_key );
 
 				$dissmised = get_user_meta( $user_id, self::$ignore_key, true );
+
 				if ( ! $dissmised ) {
 					if ( $error ) {
 						$class = 'error';
@@ -126,7 +127,7 @@ class Caldera_Warnings_Dismissible_Notice {
 			'nonce'      => self::$nonce_field,
 			'nag'        => self::$ignore_key,
 			'wp_version' => $is_less_42,
-			'dismiss'    => __( 'Dismiss this notice.', apply_filters( 'caldera_wdn_text_domain' ) ),
+			'dismiss'    => __( 'Dismiss this notice.', apply_filters( 'caldera_wdn_text_domain', 'caldera-wdn-common' ) ),
 		) );
 	}
 
