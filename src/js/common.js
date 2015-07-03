@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
 	// Save dismiss state
-	$( '.notice.is-dismissible' ).click( function ( event ) {
+	$( '.notice.is-dismissible' ).on('click', '.notice-dismiss', function ( event ) {
 		event.preventDefault();
 
 		$.post( ajaxurl, {
