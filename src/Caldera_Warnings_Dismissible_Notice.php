@@ -90,7 +90,7 @@ class Caldera_Warnings_Dismissible_Notice {
 
 					self::$nonce_field = wp_nonce_field( self::$nonce_action );
 
-					$out[] = sprintf( '<div id="%1s" class="%2s notice is-dismissible"><p>', self::$ignore_key, $class );
+					$out[] = sprintf( '<div id="%1s" data-key="%2s" class="%3s notice is-dismissible"><p>', self::$ignore_key, self::$ignore_key, $class );
 					$out[] = $message;
 					$out[] = self::$nonce_field;
 					$out[] = '</p></div>';
@@ -125,7 +125,6 @@ class Caldera_Warnings_Dismissible_Notice {
 		wp_enqueue_script( 'caldera-wdn-common', plugin_dir_url( __FILE__ ) . '/js/common.js' );
 		wp_localize_script( 'caldera-wdn-common', 'caldera_commonL10n', array(
 			'nonce'      => self::$nonce_field,
-			'nag'        => self::$ignore_key,
 			'wp_version' => $is_less_42,
 			'dismiss'    => __( 'Dismiss this notice.', apply_filters( 'caldera_wdn_text_domain', 'caldera-wdn-common' ) ),
 		) );
