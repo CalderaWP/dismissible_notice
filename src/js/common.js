@@ -2,11 +2,14 @@ jQuery(document).ready(function($) {
 	// Save dismiss state
 	$( '.notice.is-dismissible' ).on('click', '.notice-dismiss', function ( event ) {
 		event.preventDefault();
-
+		var $this = $(this);
+		if( ! $this.parent().data( 'key' ) ){
+			return;
+		}
 		$.post( ajaxurl, {
 			action: "caldera_warnings_dismissible_notice",
 			url: ajaxurl,
-			nag: caldera_commonL10n.nag || '',
+			nag: $this.parent().data( 'key' ),
 			nonce: caldera_commonL10n.nonce || ''
 		});
 
