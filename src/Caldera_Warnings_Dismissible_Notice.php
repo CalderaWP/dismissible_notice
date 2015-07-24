@@ -141,7 +141,7 @@ class Caldera_Warnings_Dismissible_Notice {
 	 */
 	public static function ajax_cb() {
 		if (  ! isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], self::$nonce_action ) ) {
-			//return false;
+			return false;
 		}
 
 		$nag = sanitize_key( $_POST[ 'nag' ] );
