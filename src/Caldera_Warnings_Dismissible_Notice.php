@@ -124,7 +124,7 @@ class Caldera_Warnings_Dismissible_Notice {
 		}
 		wp_enqueue_script( 'caldera-wdn-common', plugin_dir_url( __FILE__ ) . '/js/common.js' );
 		wp_localize_script( 'caldera-wdn-common', 'caldera_commonL10n', array(
-			'nonce'      => self::$nonce_field,
+			'nonce'      => wp_create_nonce( self::$nonce_action ),
 			'wp_version' => $is_less_42,
 			'dismiss'    => __( 'Dismiss this notice.', apply_filters( 'caldera_wdn_text_domain', 'caldera-wdn-common' ) ),
 		) );
